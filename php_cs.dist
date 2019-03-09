@@ -1,0 +1,23 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->exclude('somedir')
+    ->in(__DIR__)
+;
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@PSR2' => true,
+        'no_blank_lines_after_class_opening' => true,
+        'braces' => [
+          'position_after_functions_and_oop_constructs' => 'same',
+          'allow_single_line_closure' => true
+        ],
+        'lowercase_cast' => true,
+        'single_quote' => [
+          'strings_containing_single_quote_chars' => true
+        ],
+        'ternary_operator_spaces' => true
+    ])
+    ->setFinder($finder)
+;

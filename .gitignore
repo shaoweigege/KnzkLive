@@ -71,3 +71,4 @@ config.json
 .vscode
 
 public/bundle/*
+/.php_cs
