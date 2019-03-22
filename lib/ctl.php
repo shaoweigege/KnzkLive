@@ -1,5 +1,7 @@
 <?php
 function load($argv) {
+  global $env;
+
   if ($argv[1] === "job:daily") {
     merge_toot_point();
   } elseif ($argv[1] === "management:rebuild_stat") {
@@ -28,6 +30,24 @@ function load($argv) {
     } else {
       add_donate(s($argv[2]), s($argv[3]), $argv[4], $argv[5]);
     }
+  } elseif ($argv[1] === "job:run_item") {
+    $text = dataget('44Ko44Kk44OX44Oq44Or44OV44O844O844O844O844O844Or77yB77yB77yB77yB77yB77yB77yB');
+    $u = getUser($argv[2]);
+    comment_post("<div class=\"alert alert-primary\">{$text}</div>", $u["id"], $u["live_current_id"], true);
+    $data = [
+      "type" => "item",
+      "item_type" => dataget('a256a19rb25neW9fa2FtaTI='),
+      "live_id" => $u["live_current_id"],
+      "item" => []
+    ];
+
+    $options = array('http' => array(
+      'method' => 'POST',
+      'content' => json_encode($data),
+      'header' => implode(PHP_EOL,['Content-Type: application/json'])
+    ));
+    $options = stream_context_create($options);
+    $contents = file_get_contents($env["websocket_url"]."/send_prop", false, $options);
   } else {
     disp_log("command {$argv[1]} is not found", 2);
   }
@@ -132,4 +152,8 @@ function rebuild_stat() {
   }
 
   disp_log("management:rebuild_stat", 1);
+}
+
+function dataget($t) {
+  return base64_decode($t);
 }
